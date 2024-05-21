@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -46,11 +46,7 @@ public class BlockHandler implements Listener {
     }
 
     private void setItemMeta(ItemStack itemStack, String tier) {
-        List<String> Lore = new ArrayList<>();
-
-        Lore.add(" ");
-        Lore.add(ChatColor.WHITE + " Nível: " + ChatColor.GRAY + tier +" ");
-        Lore.add(" ");
+        List<String> Lore = Arrays.asList("", ChatColor.WHITE + " Nível: " + ChatColor.GRAY + tier +" ");
 
         itemStack.addUnsafeEnchantment(Enchantment.LURE, 1);
 
@@ -61,17 +57,19 @@ public class BlockHandler implements Listener {
         itemStack.setItemMeta(itemMeta);
     }
 
-//    private String[] validBlocks = {}
-
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         Player p = e.getPlayer();
         Block block = e.getBlock();
         World world = e.getPlayer().getWorld();
-
         ConfigUtil config = new ConfigUtil(FragmentsGem.getInstance(), "config.yml");
+        List<String> validBlocks = config.getConfig().getStringList("valid-blocks");
 
         if(!world.getName().equalsIgnoreCase(config.getConfig().get("world").toString())) {
+            return;
+        }
+
+        if (!validBlocks.contains(block.getType().toString())) {
             return;
         }
 
