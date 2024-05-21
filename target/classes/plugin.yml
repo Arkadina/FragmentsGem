@@ -1,0 +1,9 @@
+name: FragmentsGem
+version: '1.0.0'
+main: br.com.fragmentsgem.FragmentsGem
+
+commands:
+  fragmentos:
+    description: "Troque seus fragmentos por itens."
+    permission: fragmentsgem.use
+    permission-message: "&cVocê não tem permissão para usar este comando."
